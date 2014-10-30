@@ -1,13 +1,36 @@
 # MockRedisPubsub
 
-TODO: Write a gem description
+A gem for unit testing code which uses the redis publish/subscribe features.  It mocks out the following features
+
+#### Publish
+```
+ redis.publish('mychannel.event', message.to_json)
+```
+#### Subscribe
+```
+redis.subscribe(["mychannel.event") do |on|
+    on.pmessage do |event, data|
+        #handle data
+    end
+end
+```
+#### Psubscribe
+```
+redis.psubscribe(["mychannel.*") do |on|
+    on.pmessage do |event, data|
+        if event.eql? 'mychannel.event'
+            #handle data
+        end
+    end
+end
+```
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'mock_redis_pubsub'
+gem 'mock_redis_pubsub', :git => 'https://github.com/gloverke/mock_redis_pubsub.git'
 ```
 
 And then execute:
